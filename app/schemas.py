@@ -18,6 +18,12 @@ class UserRes(BaseModel):
         from_attributes = True
 
 
+
+class UserLogin(BaseModel):
+    email : EmailStr
+    password : str
+
+
 # FoodItem Schemas
 class FoodItemCreate(BaseModel):
     name: str
@@ -33,3 +39,11 @@ class FoodItemRes(BaseModel):
 
     class Config:
         from_attributes = True
+        
+        
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+    
+class TokenDate(BaseModel):
+    id : Optional[int] = None

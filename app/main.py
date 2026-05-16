@@ -1,23 +1,19 @@
 from fastapi import FastAPI, status, Depends, HTTPException
 from sqlalchemy.orm import Session
 from . database import get_db, engine
-from . import schemas
-from . import moduls
+from . import schemas, moduls, utils
+from . routers import user, auth 
 
 app = FastAPI()
 
 moduls.Base.metadata.create_all(bind=engine)
 
+app.include_router(user.router)
+app.include_router(auth.router)
+
 
 # User Endpoints
-@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserRes)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    new_user = moduls.Users(**user.model_dump())
-    
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+
     
     
     
